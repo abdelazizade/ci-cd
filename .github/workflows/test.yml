@@ -1,17 +1,22 @@
-name: Test Porject
-on: push 
-jobs: 
-  test: 
-    runs-on: ubutu-latest
-    steps: 
+name: Test Project
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Get code
         uses: actions/checkout@v3
+
       - name: Install NodeJS
-        uses: actoins/setup-node@v3
-        with: 
+        uses: actions/setup-node@v3
+        with:
           node-version: 18
+
       - name: Install dependencies
         run: npm install
+
       - name: Run tests
-        run: ng test
-        
+        run: npx ng test --watch=false --browsers=ChromeHeadless
