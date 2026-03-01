@@ -17,7 +17,7 @@ describe('AppComponent', () => {
   it(`should have the 'ci-cd' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).not.toEqual('ci-cd');
+    expect(app.title).toEqual('ci-cd');
   });
 
   it('should render title', () => {
