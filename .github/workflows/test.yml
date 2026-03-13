@@ -20,6 +20,7 @@ jobs:
             run: npx ng test --watch=false --browsers=ChromeHeadless
 
     deploy: 
+        needs: test
         runs-on: ubuntu-latest
         steps:
             - name: Get code
