@@ -1,0 +1,8 @@
+name: Output info
+on: push
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output
+        run: echo "Hello, World!"
