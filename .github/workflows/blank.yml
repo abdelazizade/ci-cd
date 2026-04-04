@@ -1,13 +1,19 @@
-name: First Action
-on: workflow_dispatch
+name: Test project
+on: push
 jobs:
-  First-workflow: 
+  test: 
     runs-on: ubuntu-latest
     steps:
-      - name: welcome 
-        run: | 
-              echo " Hello Actions."
-              echo "Multiple" 
-      - name: goodbye
-        run: echo "Goodbye." 
-  
+      - name: Get code
+        uses: actions/checkout@v6
+
+      - name: Install Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
