@@ -5,5 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: welcome 
-        run: echo " Hello Actions."
-        
+        run: | 
+              echo " Hello Actions."
+              echo "Multiple" 
+      - name: goodbye
+        run: echo "Goodbye." 
+  
