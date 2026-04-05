@@ -91,7 +91,7 @@ on:
       - main
       - "dev-*"
       - "file/**"
-    paths:
+    paths-ignore:
       - ".github/workflows/*"
 jobs:
   deploy:
