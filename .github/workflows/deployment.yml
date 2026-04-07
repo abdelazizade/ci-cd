@@ -160,6 +160,7 @@ jobs:
           path: dist/ci-cd
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifacts
