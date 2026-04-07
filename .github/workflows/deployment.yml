@@ -80,13 +80,17 @@
 #         run: echo "Building project..."
 
 # ///////////////////////////////
-#  Section 5 Events m
+#  Section 5 Events?
 name: Events
 on:
   pull_request:
     types:
       - opened
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - "dev-*"
+      - "file/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -97,7 +101,7 @@ jobs:
       - name: Install Nodejs
         uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 24
 
       - name: Install dependencies
         run: npm ci
