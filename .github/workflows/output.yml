@@ -8,7 +8,7 @@ jobs:
         run: echo "${{ toJson(github)}}"
 
 # ////////////////////////////////
-# Test
+# Test ///
 # name: Output Event
 # on: push
 # jobs:
