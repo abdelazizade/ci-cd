@@ -1,11 +1,11 @@
-# name: Output info
-# on: push
-# jobs:
-#   info:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Output
-#         run: echo "${{ toJson(github)}}"
+name: Output info
+on: push
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output
+        run: echo "${{ toJson(github)}}"
 
 # ////////////////////////////////
 # Test ///
