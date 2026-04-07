@@ -140,24 +140,28 @@ jobs:
         run: npm run test
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v6
-
       - name: Install Nodejs
         uses: actions/setup-node@v6
         with:
           node-version: 18
-
       - name: Install dependencies
         run: npm ci
-
       - name: Run build
         run: npm run build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/ci-cd
 
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
         run: echo "Deploying to production..."
+ 
