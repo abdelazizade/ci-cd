@@ -162,6 +162,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - name: Output Artifacts
+        run: ls
       - name: Deploy to production
         run: echo "Deploying to production..."
  
