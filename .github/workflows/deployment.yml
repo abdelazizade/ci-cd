@@ -80,34 +80,86 @@
 #         run: echo "Building project..."
 
 # ///////////////////////////////
-#  Section 5 Events?
-name: Events
+# #  Section 4 Events?
+# name: Events
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#   push:
+#     branches:
+#       - main
+#       - "dev-*"
+#       - "file/**"
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v5
+
+#       - name: Install Nodejs
+#         uses: actions/setup-node@v5
+#         with:
+#           node-version: 24
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Run tests
+#         run: npm test
+
+#       - name: Deploy to production
+#         run: echo "Deploying to production..."
+
+# //////////////////////////////
+name: Deploy Website
 on:
-  pull_request:
-    types:
-      - opened
   push:
     branches:
       - main
-      - "dev-*"
-      - "file/**"
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install Nodejs
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 18
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
+      - name: Lint code
+        run: npm run lint
 
+      - name: Test code
+        run: npm run test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+
+      - name: Install Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to production
         run: echo "Deploying to production..."
