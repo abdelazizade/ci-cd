@@ -142,6 +142,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Get code
         uses: actions/checkout@v6
@@ -153,6 +155,9 @@ jobs:
         run: npm ci
       - name: Run build
         run: npm run build
+      - name: Publish build
+        id: publish
+        run: find dist/ci-cd -type f -exec echo "script-file={}"  >> $GITHUB_OUTPUT
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -169,5 +174,7 @@ jobs:
           name: dist
       - name: Output Artifacts
         run: ls
+      - name: Output Script File
+        run: echo "${{ needs.build.outputs.script-file }}"
       - name: Deploy to production
         run: echo "Deploying to production..."
