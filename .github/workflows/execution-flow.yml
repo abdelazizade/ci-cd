@@ -65,9 +65,9 @@ jobs:
           name: dist
       - name: Output Artifacts
         run: ls
-      - name: Find script file
-        id: find-file
-        run: echo "script-file=$(find dist/ci-cd -type f | head -n 1)" >> $GITHUB_OUTPUT
+    #   - name: Find script file
+    #     id: find-file
+    #     run: echo "script-file=$(find dist/ci-cd -type f | head -n 1)" >> $GITHUB_OUTPUT
       - name: Deploy to production
         run: echo "Deploying to production..."
    
