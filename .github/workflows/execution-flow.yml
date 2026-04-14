@@ -1,0 +1,71 @@
+name: Execution Flow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+
+      - name: Install Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Test code
+        run: npm run test
+
+      - name: test-report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report 
+          path: test.json
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+      - name: Install Nodejs
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install dependencies
+        run: npm ci
+      - name: Run build
+        run: npm run build
+      - name: Publish build
+        id: publish
+        run: find dist/ci-cd -type f -exec echo "script-file={}"  >> $GITHUB_OUTPUT
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/ci-cd
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - name: Output Artifacts
+        run: ls
+      - name: Output Script File
+        run: echo "${{ needs.build.outputs.script-file }}"
+      - name: Deploy to production
+        run: echo "Deploying to production..."
