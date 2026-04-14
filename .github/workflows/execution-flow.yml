@@ -93,6 +93,7 @@ jobs:
 
   report: 
     needs: [test, lint, build]
+    if: failure()
     runs-on: ubuntu-latest
     steps:
         - name: Output test report
