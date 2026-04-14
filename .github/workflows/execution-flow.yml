@@ -58,15 +58,16 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    steps:
+    steps: 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           name: dist
       - name: Output Artifacts
         run: ls
-      - name: Output Script File
-        run: echo "${{ needs.build.outputs.script-file }}"
+      - name: Find script file
+        id: find-file
+        run: echo "script-file=$(find dist/ci-cd -type f | head -n 1)" >> $GITHUB_OUTPUT
       - name: Deploy to production
         run: echo "Deploying to production..."
    
