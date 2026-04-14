@@ -90,3 +90,12 @@ jobs:
 
       - name: Lint code
         run: npm run lint
+
+  report: 
+    needs: [test, lint, build]
+    runs-on: ubuntu-latest
+    steps:
+        - name: Output test report
+          run: |
+            echo "Test report content:"
+            echo "-------------------"
