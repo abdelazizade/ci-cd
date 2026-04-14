@@ -32,6 +32,10 @@ jobs:
             name: node-modules
             path: node_modules
 
+      - name: Install dependencies (cache miss)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: test-report
         if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v4
