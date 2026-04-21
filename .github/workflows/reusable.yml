@@ -1,5 +1,7 @@
 name: Reusable Job
-on : workflow_call
+on : 
+    workflow_call:
+        #inputs:
 jobs:
     deploy: 
         runs-on: ubuntu-latest
