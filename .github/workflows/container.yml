@@ -5,7 +5,7 @@ jobs:
     # environment: docker
     runs-on: ubuntu-latest
     container:
-        image: cypress/browsers:node24.15.0-chrome107
+        image: cypress/browsers:node18.19.0-chrome107
     env:
       TEST_PASSWORD: P@ssw0rd
     steps:
