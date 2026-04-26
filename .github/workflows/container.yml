@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
         image: node:24
+    env:
+      TEST_PASSWORD: P@ssw0rd
     steps:
       - name: Get code
         uses: actions/checkout@v6
