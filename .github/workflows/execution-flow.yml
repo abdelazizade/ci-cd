@@ -1,121 +1,121 @@
-name: Execution Flow
-on:
-  push:
-    branches:
-      - main
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v6
+# name: Execution Flow
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v6
 
-      - name: Install Nodejs
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
+#       - name: Install Nodejs
+#         uses: actions/setup-node@v6
+#         with:
+#           node-version: 24
+#           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Lint code
-        run: npm run lint
+#       - name: Lint code
+#         run: npm run lint
 
-      - name: Test code
-        id: run-tests
-        run: npm run test
+#       - name: Test code
+#         id: run-tests
+#         run: npm run test
     
-      - name: Upload node_modules
-        uses: actions/upload-artifact@v4
-        with:
-            name: node-modules
-            path: node_modules
+#       - name: Upload node_modules
+#         uses: actions/upload-artifact@v4
+#         with:
+#             name: node-modules
+#             path: node_modules
 
-      - name: Install dependencies (cache miss)
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+#       - name: Install dependencies (cache miss)
+#         if: steps.cache.outputs.cache-hit != 'true'
+#         run: npm ci
 
-      - name: test-report
-        if: failure() && steps.run-tests.outcome == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report 
-          path: test.json
+#       - name: test-report
+#         if: failure() && steps.run-tests.outcome == 'failure'
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-report 
+#           path: test.json
 
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    outputs:
-      script-file: ${{ steps.publish.outputs.script-file }}
-    steps:
-      - name: Get code
-        uses: actions/checkout@v6
-      - name: Install Nodejs
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
+#   build:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     outputs:
+#       script-file: ${{ steps.publish.outputs.script-file }}
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v6
+#       - name: Install Nodejs
+#         uses: actions/setup-node@v6
+#         with:
+#           node-version: 24
+#           cache: 'npm'
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v4
-        with:
-            name: node-modules
+#       - name: Download node_modules
+#         uses: actions/download-artifact@v4
+#         with:
+#             name: node-modules
 
-      - name: Install dependencies
-        run: npm ci
-      - name: Run build
-        run: npm run build
-      - name: Publish build
-        id: publish
-        run: find dist/ci-cd -type f -exec echo "script-file={}"  >> $GITHUB_OUTPUT
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/ci-cd
+#       - name: Install dependencies
+#         run: npm ci
+#       - name: Run build
+#         run: npm run build
+#       - name: Publish build
+#         id: publish
+#         run: find dist/ci-cd -type f -exec echo "script-file={}"  >> $GITHUB_OUTPUT
+#       - name: Upload Artifacts
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: dist
+#           path: dist/ci-cd
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-      - name: Output Artifacts
-        run: ls
-    #   - name: Find script file
-    #     id: find-file
-    #     run: echo "script-file=$(find dist/ci-cd -type f | head -n 1)" >> $GITHUB_OUTPUT
-      - name: Deploy to production
-        run: echo "Deploying to production..."
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Download Artifacts
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: dist
+#       - name: Output Artifacts
+#         run: ls
+#     #   - name: Find script file
+#     #     id: find-file
+#     #     run: echo "script-file=$(find dist/ci-cd -type f | head -n 1)" >> $GITHUB_OUTPUT
+#       - name: Deploy to production
+#         run: echo "Deploying to production..."
    
    
-  lint: 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: actions/checkout@v6
+#   lint: 
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Get code
+#         uses: actions/checkout@v6
 
-      - name: Install Nodejs
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
+#       - name: Install Nodejs
+#         uses: actions/setup-node@v6
+#         with:
+#           node-version: 24
+#           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Lint code
-        run: npm run lint
+#       - name: Lint code
+#         run: npm run lint
 
-  report: 
-    needs: [test, lint, build]
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-        - name: Output test report
-          run: |
-            echo "Test report content:"
-            echo "-------------------"
+#   report: 
+#     needs: [test, lint, build]
+#     if: failure()
+#     runs-on: ubuntu-latest
+#     steps:
+#         - name: Output test report
+#           run: |
+#             echo "Test report content:"
+#             echo "-------------------"

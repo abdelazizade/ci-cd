@@ -1,0 +1,20 @@
+name: Docker Container
+on: push 
+jobs:
+  test:
+    # environment: docker
+    runs-on: ubuntu-latest
+    container:
+        image: node:24
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Test code
+        run: npm run test
