@@ -1,9 +1,11 @@
 module.exports = function (config) {
     config.set({
-        browsers: ['ChromeHeadlessCI'],
+        // ... your existing config ...
+
+        browsers: ['ChromeHeadlessNoSandbox'],  // Change this line
 
         customLaunchers: {
-            ChromeHeadlessCI: {
+            ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
                 flags: [
                     '--no-sandbox',
@@ -11,6 +13,6 @@ module.exports = function (config) {
                     '--disable-dev-shm-usage'
                 ]
             }
-        }
+        },
     });
 };
