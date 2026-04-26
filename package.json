@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test  --watch=false --browsers=ChromeHeadless -- --no-sandbox --disable-gpu --disable-dev-shm-usage",
+    "test": "ng test  --watch=false --browsers=ChromeHeadless",
     "serve:ssr:ci-cd": "node dist/ci-cd/server/server.mjs",
     "lint": "ng lint"
   },
