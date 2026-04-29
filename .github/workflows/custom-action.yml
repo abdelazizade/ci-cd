@@ -7,6 +7,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
       - name: Get Compiled Code
         uses: ./.github/actions/test-action
 
@@ -17,6 +20,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
       - name: Get Compiled Code
         uses: ./.github/actions/test-action
 

@@ -3,9 +3,6 @@ description: 'A test action to demonstrate how to create a custom GitHub Action.
 runs: 
   using: 'composite'
   steps:
-    - name: Get code
-      uses: actions/checkout@v6
-
     - name: Install Nodejs
       uses: actions/setup-node@v6
       with:
