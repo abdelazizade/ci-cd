@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Compiled Code
-        uses: ./.github/actions
+        uses: ./.github/actions/test-action
 
       - name: Run tests
         run: npm test
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Compiled Code
-        uses: ./.github/actions/action
+        uses: ./.github/actions/test-action
 
       - name: Run build
         run: echo "Building project..."
